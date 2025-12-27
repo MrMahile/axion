@@ -34,7 +34,7 @@ type Result struct {
 	Error   error
 }
 
-const configPath = "/root/.config/vps/config.yaml"
+const configPath = "/root/.config/axion/config.yaml"
 
 // ConfigFile represents the config file structure (supports both formats)
 type ConfigFile struct {
