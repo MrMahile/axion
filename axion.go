@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net"
 	"os"
 	"regexp"
 	"strconv"
@@ -211,8 +212,17 @@ func executeCommand(vps VPS, command string) Result {
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(), // Accept any host key
 	}
 
+	// Parse IP and port - if IP already contains port, use it; otherwise default to 22
+	host, port, err := net.SplitHostPort(vps.IP)
+	if err != nil {
+		// IP doesn't contain a port, use IP as-is with default port 22
+		host = vps.IP
+		port = "22"
+	}
+	address := net.JoinHostPort(host, port)
+
 	// Connect to SSH server
-	client, err := ssh.Dial("tcp", fmt.Sprintf("%s:22", vps.IP), config)
+	client, err := ssh.Dial("tcp", address, config)
 	if err != nil {
 		result.Error = fmt.Errorf("failed to connect: %v", err)
 		result.Success = false
@@ -244,8 +254,11 @@ func executeCommand(vps VPS, command string) Result {
 		return result
 	}
 
+	// Wrap command in interactive shell to ensure PATH is loaded from .bashrc
+	wrappedCommand := fmt.Sprintf("bash -i -c %s", strconv.Quote(command))
+
 	// Execute command
-	if err := session.Start(command); err != nil {
+	if err := session.Start(wrappedCommand); err != nil {
 		result.Error = fmt.Errorf("failed to start command: %v", err)
 		result.Success = false
 		return result
