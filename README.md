@@ -11,8 +11,8 @@ go install github.com/mrmahile/axion@latest
 
 **Pre-built Binaries:**
 ```
-wget https://github.com/mrmahile/axion/releases/download/v0.0.1/axion-linux-amd64-0.0.1.tgz
-tar -xvzf axion-linux-amd64-0.0.1.tgz
+wget https://github.com/mrmahile/axion/releases/download/v0.0.2/axion-linux-amd64-0.0.2.tgz
+tar -xvzf axion-linux-amd64-0.0.2.tgz
 mv axion ~/go/bin/
 ```
 
@@ -48,9 +48,17 @@ credentials:
     # Name field is optional - IP-only entries work too
     username: "root"
     password: "anotherpassword"
+
+  - name: "worker4"
+    # Custom SSH port example
+    ip: "192.168.1.4:30224"
+    username: "root"
+    password: "anotherpassword"
 ```
 
 **Note:** The `name` field is optional. You can use either IP addresses or VPS names (or both). If a VPS name is provided, you can reference the server using the number in its name (e.g., `worker60` → index `60`). The tool matches VPS by extracting the numeric part from their names, so entries don't need to be in sequential order.
+
+**Custom SSH Port:** You can specify a custom SSH port by appending it to the IP address with a colon (e.g., `192.168.1.4:30224`). If no port is specified, the default port 22 is used.
 
 ### Manual Configuration
 
