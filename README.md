@@ -11,8 +11,8 @@ go install github.com/mrmahile/axion@latest
 
 **Pre-built Binaries:**
 ```
-wget https://github.com/mrmahile/axion/releases/download/v0.0.2/axion-linux-amd64-0.0.2.tgz
-tar -xvzf axion-linux-amd64-0.0.2.tgz
+wget https://github.com/mrmahile/axion/releases/download/v0.0.3/axion-linux-amd64-0.0.3.tgz
+tar -xvzf axion-linux-amd64-0.0.3.tgz
 mv axion ~/go/bin/
 ```
 

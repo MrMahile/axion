@@ -254,8 +254,11 @@ func executeCommand(vps VPS, command string) Result {
 		return result
 	}
 
+	// Wrap command in interactive shell to ensure PATH is loaded from .bashrc
+	wrappedCommand := fmt.Sprintf("bash -i -c %s", strconv.Quote(command))
+
 	// Execute command
-	if err := session.Start(command); err != nil {
+	if err := session.Start(wrappedCommand); err != nil {
 		result.Error = fmt.Errorf("failed to start command: %v", err)
 		result.Success = false
 		return result
